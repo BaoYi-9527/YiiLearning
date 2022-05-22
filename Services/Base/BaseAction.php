@@ -2,33 +2,11 @@
 
 namespace app\Services\Base;
 
-use yii\web\Controller;
-use yii\web\Request;
+use yii\base\Action;
+use yii\web\Response;
 
-class BaseController extends Controller
+class BaseAction extends Action
 {
-    # api 请求 暂时关闭 Csrf 防范
-    public $enableCsrfValidation = false;
-
-    /**
-     * Notes:操作前置
-     * User: weicheng
-     * DateTime: 2022/5/22 15:57
-     * @param \yii\base\Action $action
-     * @return bool|void
-     * @throws \yii\web\BadRequestHttpException
-     */
-    public function beforeAction($action)
-    {
-        return parent::beforeAction($action);
-
-        # 验证器
-//        $actionMethod = $action->actionMethod;
-//        $controller   = $action->controller;
-//
-//        $request = new Request();
-//        dd($request->get());
-    }
 
     /**
      * Notes:成功返回
@@ -37,7 +15,7 @@ class BaseController extends Controller
      * @param array $data
      * @param string $msg
      * @param int $code
-     * @return \yii\web\Response
+     * @return false|string
      */
     public function successResponse(array $data = [], $msg = 'success', $code = 200)
     {
@@ -55,7 +33,7 @@ class BaseController extends Controller
      * @param int $code
      * @param string $msg
      * @param array $data
-     * @return \yii\web\Response
+     * @return false|string
      */
     public function errorResponse($code = 403, $msg = 'error', $data = [])
     {
@@ -64,5 +42,20 @@ class BaseController extends Controller
             'msg'  => $msg,
             'data' => $data
         ]);
+    }
+
+    /**
+     * Notes:json_encode
+     * User: weicheng
+     * DateTime: 2022/5/22 14:39
+     * @param array $arr
+     * @return false|string
+     */
+    private function asJson(array $arr)
+    {
+        $response         = new Response();
+        $response->format = Response::FORMAT_JSON;
+        $response->data   = $arr;
+        return $response;
     }
 }
