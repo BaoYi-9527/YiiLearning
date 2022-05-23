@@ -39,7 +39,7 @@ class BaseController extends Controller
      * @param int $code
      * @return \yii\web\Response
      */
-    public function successResponse(array $data = [], $msg = 'success', $code = 200)
+    public function successResponse(array $data = [], string $msg = 'success', int $code = 200)
     {
         return $this->asJson([
             'code' => $code,
@@ -57,7 +57,7 @@ class BaseController extends Controller
      * @param array $data
      * @return \yii\web\Response
      */
-    public function errorResponse($code = 403, $msg = 'error', $data = [])
+    public function errorResponse(int $code = 403, string $msg = 'error', array $data = [])
     {
         return $this->asJson([
             'code' => $code,
@@ -67,13 +67,13 @@ class BaseController extends Controller
     }
 
     /**
-     * Notes:获取
+     * Notes:获取请求参数
      * User: weicheng
      * DateTime: 2022/5/23 16:05
      * @param string $field
      * @return array|mixed|object
      */
-    public function inputs($field = '')
+    public function inputs(string $field = '')
     {
         $request = \Yii::$app->request;
         $method  = strtoupper($request->method);
