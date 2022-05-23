@@ -65,4 +65,27 @@ class BaseController extends Controller
             'data' => $data
         ]);
     }
+
+    /**
+     * Notes:获取
+     * User: weicheng
+     * DateTime: 2022/5/23 16:05
+     * @param string $field
+     * @return array|mixed|object
+     */
+    public function inputs($field = '')
+    {
+        $request = \Yii::$app->request;
+        $method  = strtoupper($request->method);
+
+        if ($method === 'GET') {
+            $params = $field ? $request->get($field) : $request->get();
+        } elseif ($method === 'POST') {
+            $params = $field ? $request->post($field) : $request->post();
+        } else {
+            $params = $field ? $request->getBodyParam($field) : $request->bodyParams;
+        }
+
+        return $params;
+    }
 }
